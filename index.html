@@ -25,23 +25,41 @@
         let file = document.querySelector('input').files[0];
         let data = JSON.parse(JSON.stringify(file, ['name', 'type', 'size', 'lastModified']));
         data.lastModified = new Date(data.lastModified).toISOString();
+      //  generateTable(table, data);
+        generateTableHead(table, data);
         generateTable(table, data);
       });
-      function generateTable(table, data){
+      // function generateTable(table, data){
+      //   for(let key in data){
+      //     let row = table.insertRow();
+      //
+      //     let th = document.createElement('th')
+      //     let htext = document.createTextNode(`${capitalize(key)}: `);
+      //     th.appendChild(htext);
+      //     row.appendChild(th);
+      //
+      //     let td = document.createElement('td');
+      //     let dtext = document.createTextNode(data[key]);
+      //     td.appendChild(dtext);
+      //     row.appendChild(td);
+      //   }
+      // }
+      function generateTableHead(table, data){
+        let thead = table.createTHead();
+        let row = thead.insertRow();
         for(let key in data){
-          let row = table.insertRow();
-
-        //  let thead = table.createTHead();
-          let th = document.createElement('th')
-          let htext = document.createTextNode(`${capitalize(key)}: `);
+          let th = document.createElement('th');
+          let htext = document.createTextNode(key);
           th.appendChild(htext);
-        //  thead.appendChild(th);
           row.appendChild(th);
-
-          let td = document.createElement('td');
-          let dtext = document.createTextNode(data[key]);
-          td.appendChild(dtext);
-          row.appendChild(td);
+        }
+      }
+      function generateTable(table, data) {
+        let row = table.insertRow();
+        for(let key in data){
+          let cell = row.insertCell();
+          let ctext = document.createTextNode(data[key]);
+          cell.append(ctext);
         }
       }
       function capitalize(str){
