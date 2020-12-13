@@ -13,15 +13,40 @@
         <input type="file" name="" value="" accept="video/*">
       </div>
       <button type="submit" name="button">Get Info</button>
-    </form>
 
+
+    </form>
+    <table></table>
     <script type="text/javascript">
       document.querySelector('form').addEventListener('submit', (event) => {
         event.preventDefault();
         //debugger;
-        const file = document.querySelector('input').files[0];
-        console.table(file);
-      })
+        let table = document.querySelector('table')
+        let file = document.querySelector('input').files[0];
+        let data = JSON.parse(JSON.stringify(file, ['name', 'type', 'size', 'lastModified']));
+        data.lastModified = new Date(data.lastModified).toISOString();
+        generateTable(table, data);
+      });
+      function generateTable(table, data){
+        for(let key in data){
+          let row = table.insertRow();
+
+        //  let thead = table.createTHead();
+          let th = document.createElement('th')
+          let htext = document.createTextNode(`${capitalize(key)}: `);
+          th.appendChild(htext);
+        //  thead.appendChild(th);
+          row.appendChild(th);
+
+          let td = document.createElement('td');
+          let dtext = document.createTextNode(data[key]);
+          td.appendChild(dtext);
+          row.appendChild(td);
+        }
+      }
+      function capitalize(str){
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
     </script>
   </body>
 </html>
